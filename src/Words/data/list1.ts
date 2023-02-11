@@ -82,7 +82,7 @@ const list1: TWord[] = [
     translation: "травчик",
   },
   {
-    word: "drugs",
+    word: "drug",
     transcription: "[drʌɡ]",
     translation: "наркотики",
   },
