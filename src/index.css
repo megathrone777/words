@@ -21,8 +21,7 @@ table > tbody > tr {
 
 table > tbody > tr > td {
   border-right: 3px solid black;
-  font-size: 18px;
-  height: 40px;
+  font-size: 16px;
   padding: 8px;
   width: 33.3333%;
 }
