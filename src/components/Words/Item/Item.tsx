@@ -20,7 +20,6 @@ const Item: React.FC<TProps> = ({
   useEffect((): VoidFunction => {
     audio.setAttribute("preload", "auto");
     audio.setAttribute("type", "audio/ogg");
-    console.log(audio);
     audio.addEventListener("ended", (): void => {
       togglePlaying(false);
     });

@@ -12,7 +12,8 @@
 .table > tbody > tr > td {
   border-right: 3px solid black;
   font-size: 16px;
-  padding: 8px;
+  height: 33px;
+  padding: 3px;
   width: 33.3333%;
 }
 
