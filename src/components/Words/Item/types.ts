@@ -4,3 +4,5 @@ export interface TWord {
   transcription: string;
   translation: string;
 }
+
+export type TProps = TWord;

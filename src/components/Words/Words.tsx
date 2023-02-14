@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { Loader } from "~/components";
-import { TWord } from "./types";
+import { Item } from "./Item";
+import { TWord } from "./Item/types";
 import styles from "./words.module.css";
 
 const Words: React.FC = () => {
@@ -32,25 +33,8 @@ const Words: React.FC = () => {
         <table className={styles.table}>
           <tbody>
             {list.map(
-              ({
-                audioLink,
-                word,
-                transcription,
-                translation,
-              }: TWord): React.ReactElement => (
-                <tr key={word}>
-                  <td>{word}</td>
-                  <td>
-                    <span>{transcription}</span>
-
-                    {audioLink && (
-                      <audio controls preload="metadata">
-                        <source src={audioLink} type="audio/ogg" />
-                      </audio>
-                    )}
-                  </td>
-                  <td>{translation}</td>
-                </tr>
+              ({ word, ...rest }: TWord): React.ReactElement => (
+                <Item key={word} {...{ word }} {...rest} />
               )
             )}
           </tbody>

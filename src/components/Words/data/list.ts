@@ -1,6 +1,6 @@
-import { TWord } from "../types";
+import { TWord } from "../Item/types";
 
-const list: TWord[] = [
+const list: Omit<TWord, "audioLink">[] = [
   {
     word: "consequences",
     transcription: "[ˈkɑnsɪkwɛnsɪz]",
