@@ -1,0 +1,24 @@
+@keyframes spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 0.5s linear infinite;
+  border-radius: 50%;
+  border: 10px solid orange;
+  border-top-color: transparent;
+  height: 60px;
+  left: 0;
+  margin-inline: auto;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+}

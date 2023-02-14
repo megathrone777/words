@@ -1,0 +1,35 @@
+.table {
+  border-collapse: collapse;
+  border: 3px solid black;
+  text-align: center;
+  width: 100%;
+}
+
+.table > tbody > tr {
+  border-bottom: 3px solid black;
+}
+
+.table > tbody > tr > td {
+  border-right: 3px solid black;
+  font-size: 16px;
+  padding: 8px;
+  width: 33.3333%;
+}
+
+.table > tbody > tr > td:last-of-type {
+  border-right: none;
+}
+
+.table > tbody > tr > td > span {
+  display: inline-block;
+}
+
+.table > tbody > tr > td > audio {
+  display: inline-block;
+  height: 30px;
+  margin-top: 5px;
+}
+
+.table > tfoot {
+  height: 50px;
+}

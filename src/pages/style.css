@@ -1,0 +1,19 @@
+#__next,
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font: bold 16px "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", sans-serif;
+  overflow-y: scroll;
+}
+
+.wrapper {
+  margin-inline: auto;
+  max-width: 800px;
+  height: 100%;
+  position: relative;
+}

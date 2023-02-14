@@ -1,6 +1,6 @@
 import { TWord } from "../types";
 
-const list1: TWord[] = [
+const list: TWord[] = [
   {
     word: "consequences",
     transcription: "[ˈkɑnsɪkwɛnsɪz]",
@@ -253,4 +253,4 @@ const list1: TWord[] = [
   },
 ];
 
-export { list1 };
+export { list };
