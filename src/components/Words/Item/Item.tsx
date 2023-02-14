@@ -18,9 +18,14 @@ const Item: React.FC<TProps> = ({
   };
 
   useEffect(() => {
+    audio.setAttribute("preload", "auto");
     audio.addEventListener("ended", () => {
       togglePlaying(false);
     });
+
+    return () => {
+      audio.removeEventListener("ended", () => togglePlaying(false));
+    };
   }, [audio]);
 
   return (
