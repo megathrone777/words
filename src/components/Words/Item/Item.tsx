@@ -18,6 +18,10 @@ const Item: React.FC<TProps> = ({
   };
 
   useEffect((): VoidFunction => {
+    if ("webkitAudioContext" in window) {
+      // @ts-ignore
+      new webkitAudioContext();
+    }
     audio.setAttribute("preload", "auto");
     audio.setAttribute("type", "audio/ogg");
     audio.addEventListener("ended", (): void => {
