@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
 
 const Item: React.FC<TProps> = ({
@@ -8,6 +9,20 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
+  const [audio] = useState<HTMLAudioElement>(new Audio(audioLink));
+  const [isPlaying, togglePlaying] = useState<boolean>(false);
+
+  const handleAudioPlay = (): void => {
+    audio.play();
+    togglePlaying(true);
+  };
+
+  useEffect(() => {
+    audio.addEventListener("ended", () => {
+      togglePlaying(false);
+    });
+  }, [audio]);
+
   return (
     <tr key={word}>
       <td>{word}</td>
@@ -15,9 +30,9 @@ const Item: React.FC<TProps> = ({
         <span>{transcription}</span>
 
         {audioLink && (
-          <audio controls preload="metadata">
-            <source src={audioLink} type="audio/ogg" />
-          </audio>
+          <button onClick={handleAudioPlay} type="button">
+            {isPlaying ? <SvgPauseIcon /> : <SvgPlayIcon />}
+          </button>
         )}
       </td>
       <td>{translation}</td>

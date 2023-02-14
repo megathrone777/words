@@ -11,6 +11,11 @@ body {
   overflow-y: scroll;
 }
 
+svg {
+  height: 100%;
+  width: 100%;
+}
+
 .wrapper {
   margin-inline: auto;
   max-width: 800px;

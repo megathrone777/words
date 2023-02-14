@@ -22,12 +22,15 @@
 
 .table > tbody > tr > td > span {
   display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
-.table > tbody > tr > td > audio {
+.table > tbody > tr > td > button {
   display: inline-block;
   height: 30px;
-  margin-top: 5px;
+  vertical-align: middle;
+  width: 30px;
 }
 
 .table > tfoot {
