@@ -14,7 +14,6 @@ const handler: THandler = async (request, response) => {
       prop: "imageinfo",
       titles,
     },
-    insecureHTTPParser: true,
   });
 
   const pages: TPage[] = Object.values(wordsResponse["data"]["query"]["pages"]);

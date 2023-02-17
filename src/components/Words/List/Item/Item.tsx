@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
@@ -10,25 +11,29 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
-  const [audio] = useState<HTMLAudioElement>(new Audio(audioLink));
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
-  const handleAudioPlay = (): void => {
-    audio.play();
-    togglePlaying(true);
-  };
-
-  useEffect((): VoidFunction => {
-    audio.setAttribute("preload", "auto");
-    audio.setAttribute("type", "audio/ogg");
-    audio.addEventListener("ended", (): void => {
-      togglePlaying(false);
+  const handleAudioPlay = async (): Promise<void> => {
+    const audioContext = new window.AudioContext();
+    const response = await axios.get(audioLink, {
+      responseType: "arraybuffer",
     });
 
-    return (): void => {
-      audio.removeEventListener("ended", (): void => togglePlaying(false));
-    };
-  }, [audio]);
+    togglePlaying(true);
+    audioContext.decodeAudioData(
+      response["data"],
+      (buffer: AudioBuffer): void => {
+        const source = audioContext.createBufferSource();
+
+        source.buffer = buffer;
+        source.connect(audioContext.destination);
+        source.start();
+        source.onended = (): void => {
+          togglePlaying(false);
+        };
+      }
+    );
+  };
 
   return (
     <tr className={styles.tr}>
