@@ -12,7 +12,7 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
-  const [audio] = useState<HTMLAudioElement>(new Audio());
+  const [audio, setAudio] = useState<HTMLAudioElement>(new Audio());
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
   const handleAudioPlay = async (): Promise<void> => {
@@ -23,8 +23,9 @@ const Item: React.FC<TProps> = ({
     });
 
     reader.onloadend = (): void => {
-      audio.setAttribute("src", reader["result"] as string);
-      audio.play();
+      if (reader["result"]) {
+        setAudio(new Audio(reader["result"] as string));
+      }
     };
 
     if (response && response["data"]) {
@@ -32,7 +33,7 @@ const Item: React.FC<TProps> = ({
         response["data"],
         (buffer: AudioBuffer): void => {
           const wav: ArrayBuffer = bufferToWav(buffer);
-          const blob: Blob = new Blob([new DataView(wav)], {
+          const blob: Blob = new window.Blob([new DataView(wav)], {
             type: "audio/wav",
           });
 
@@ -44,10 +45,13 @@ const Item: React.FC<TProps> = ({
   };
 
   useEffect((): void => {
-    audio.onended = () => {
-      togglePlaying(false);
-    };
-  }, []);
+    if (audio.src) {
+      audio.play();
+      audio.onended = (): void => {
+        togglePlaying(false);
+      };
+    }
+  }, [audio]);
 
   return (
     <tr className={styles.tr}>
