@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
+import styles from "./item.module.css";
 
 const Item: React.FC<TProps> = ({
   audioLink,
@@ -24,24 +25,28 @@ const Item: React.FC<TProps> = ({
       togglePlaying(false);
     });
 
-    return () => {
+    return (): void => {
       audio.removeEventListener("ended", (): void => togglePlaying(false));
     };
   }, [audio]);
 
   return (
-    <tr key={word}>
-      <td>{word}</td>
-      <td>
-        <span>{transcription}</span>
+    <tr className={styles.tr}>
+      <td className={styles.td}>{word}</td>
+      <td className={styles.td}>
+        <span className={styles.transcription}>{transcription}</span>
 
         {audioLink && (
-          <button onClick={handleAudioPlay} type="button">
+          <button
+            className={styles["audio-button"]}
+            onClick={handleAudioPlay}
+            type="button"
+          >
             {isPlaying ? <SvgPauseIcon /> : <SvgPlayIcon />}
           </button>
         )}
       </td>
-      <td>{translation}</td>
+      <td className={styles.td}>{translation}</td>
     </tr>
   );
 };

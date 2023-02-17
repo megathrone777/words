@@ -19,6 +19,11 @@
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-swipeable": "^7.0.0",
     "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "@types/react-paginate": "^7.1.1",
+    "react-paginate": "^8.1.4"
   }
 }

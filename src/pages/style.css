@@ -16,9 +16,16 @@ svg {
   width: 100%;
 }
 
+button {
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
 .wrapper {
   margin-inline: auto;
   max-width: 800px;
   height: 100%;
-  position: relative;
 }

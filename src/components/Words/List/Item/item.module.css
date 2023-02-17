@@ -1,0 +1,28 @@
+.tr {
+  border-bottom: 3px solid black;
+}
+
+.td {
+  border-right: 3px solid black;
+  font-size: 16px;
+  height: 33px;
+  padding: 3px;
+  width: 33.3333%;
+}
+
+.td:last-of-type {
+  border-right: none;
+}
+
+.transcription {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+}
+
+.audio-button {
+  display: inline-block;
+  height: 30px;
+  vertical-align: middle;
+  width: 30px;
+}

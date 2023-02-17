@@ -2,38 +2,57 @@
   border-collapse: collapse;
   border: 3px solid black;
   text-align: center;
+  user-select: none;
   width: 100%;
 }
 
-.table > tbody > tr {
-  border-bottom: 3px solid black;
+.tfoot,
+.pagination {
+  height: 50px;
 }
 
-.table > tbody > tr > td {
-  border-right: 3px solid black;
-  font-size: 16px;
-  height: 33px;
-  padding: 3px;
-  width: 33.3333%;
+.pagination-list {
+  align-items: center;
+  display: flex;
+  gap: 15px;
+  height: 100%;
+  justify-content: center;
 }
 
-.table > tbody > tr > td:last-of-type {
-  border-right: none;
-}
-
-.table > tbody > tr > td > span {
-  display: inline-block;
-  margin-right: 5px;
-  vertical-align: middle;
-}
-
-.table > tbody > tr > td > button {
-  display: inline-block;
+.pagination-arrow {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  font-weight: bold;
   height: 30px;
-  vertical-align: middle;
   width: 30px;
 }
 
-.table > tfoot {
-  height: 50px;
+.pagination-arrow-disabled {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.pagination-item {
+  align-items: center;
+  height: 30px;
+  width: 30px;
+}
+
+.pagination-link {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  line-height: 30px;
+  text-align: center;
+}
+
+.pagination-link-active {
+  color: tomato;
+  cursor: default;
+}
+
+.pagination-item:not(.pagination-item-selected):hover,
+.pagination-arrow:hover {
+  opacity: 0.6;
 }
