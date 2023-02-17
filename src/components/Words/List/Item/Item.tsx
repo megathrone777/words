@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import bufferToWav from "audiobuffer-to-wav";
 
@@ -12,28 +12,24 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
-  // const [audio] = useState<HTMLAudioElement>(new Audio());
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
   const handleAudioPlay = async (): Promise<void> => {
     const reader = new FileReader();
-    const audioContext = new AudioContext();
+    // @ts-ignore
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const response = await axios.get(audioLink, {
       responseType: "arraybuffer",
     });
 
     reader.onloadend = (): void => {
       if (reader["result"]) {
-        const audio = new Audio(reader["result"] as string);
+        const audio = new window.Audio(reader["result"] as string);
         const source = audioContext.createMediaElementSource(audio);
 
+        console.log(source);
         source.connect(audioContext.destination);
         audio.play();
-
-        // setAudio(() => {
-
-        //   return ;
-        // });
       }
     };
 
@@ -52,15 +48,6 @@ const Item: React.FC<TProps> = ({
     }
     togglePlaying(true);
   };
-
-  // useEffect((): void => {
-  //   if (audio.src) {
-  //     audio.play();
-  //     audio.onended = (): void => {
-  //       togglePlaying(false);
-  //     };
-  //   }
-  // }, [audio]);
 
   return (
     <tr className={styles.tr}>
