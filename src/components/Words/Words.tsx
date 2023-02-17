@@ -64,6 +64,18 @@ const Words: React.FC = () => {
         <>
           <table className={styles.table} {...handlers}>
             <List items={currentItems} onDataLoaded={handleWordsLoaded} />
+
+            <tfoot className={styles.tfoot}>
+              <tr>
+                <td colSpan={3}>
+                  {currentPage + 1 === pageCount
+                    ? `${list.length} из ${list.length}`
+                    : `${(currentPage + 1) * currentItems.length} из ${
+                        list.length
+                      }`}
+                </td>
+              </tr>
+            </tfoot>
           </table>
 
           <div

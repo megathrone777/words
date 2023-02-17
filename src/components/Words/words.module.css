@@ -6,6 +6,7 @@
   width: 100%;
 }
 
+.tfoot,
 .pagination {
   height: 50px;
 }

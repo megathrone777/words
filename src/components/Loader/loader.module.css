@@ -8,6 +8,18 @@
   }
 }
 
+.wrapper {
+  background-color: white;
+  bottom: 0;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 20;
+}
+
 .spinner {
   animation: spin 0.5s linear infinite;
   border-radius: 50%;
@@ -16,7 +28,7 @@
   height: 60px;
   left: 0;
   margin-inline: auto;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
