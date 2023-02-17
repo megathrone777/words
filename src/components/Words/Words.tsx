@@ -17,17 +17,25 @@ const Words: React.FC = () => {
     []
   );
   const [pageCount, setPageCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const handlers = useSwipeable({
     onSwipedLeft: (): void => {
+      if (currentPage + 1 === pageCount) return;
+      const newOffset = ((currentPage + 1) * itemsPerPage) % list.length;
+
       toggleLoading(true);
-      setItemOffset((itemOffset) => itemOffset + itemsPerPage);
+      setCurrentPage((currentPage) => currentPage + 1);
+      setItemOffset(newOffset);
     },
 
     onSwipedRight: (): void => {
-      if (itemOffset === 0) return;
+      if (currentPage === 0) return;
+      const newOffset = ((currentPage - 1) * itemsPerPage) % list.length;
+
       toggleLoading(true);
-      setItemOffset((itemOffset) => itemOffset - itemsPerPage);
+      setCurrentPage((currentPage) => currentPage - 1);
+      setItemOffset(newOffset);
     },
   });
 
@@ -35,6 +43,7 @@ const Words: React.FC = () => {
     const newOffset = (selected * itemsPerPage) % list.length;
 
     toggleLoading(true);
+    setCurrentPage(selected);
     setItemOffset(newOffset);
   };
 
@@ -52,39 +61,39 @@ const Words: React.FC = () => {
   return (
     <>
       {currentItems && !!currentItems.length && (
-        <table className={styles.table} {...handlers}>
-          <List items={currentItems} onDataLoaded={handleWordsLoaded} />
+        <>
+          <table className={styles.table} {...handlers}>
+            <List items={currentItems} onDataLoaded={handleWordsLoaded} />
+          </table>
 
-          <tfoot className={styles.tfoot}>
-            <tr>
-              <td colSpan={3}>{list.length}</td>
-            </tr>
-          </tfoot>
-        </table>
+          <div
+            className={styles.pagination}
+            style={{ opacity: isLoading ? 0 : 1 }}
+          >
+            <Pagination
+              activeClassName={styles["pagination-item-selected"]}
+              activeLinkClassName={styles["pagination-link-active"]}
+              containerClassName={styles["pagination-list"]}
+              disabledClassName={styles["pagination-arrow-disabled"]}
+              forcePage={currentPage}
+              nextLabel={
+                <button className={styles["pagination-arrow"]} type="button">
+                  {">"}
+                </button>
+              }
+              onPageChange={handlePageChange}
+              pageClassName={styles["pagination-item"]}
+              pageLinkClassName={styles["pagination-link"]}
+              previousLabel={
+                <button className={styles["pagination-arrow"]} type="button">
+                  {"<"}
+                </button>
+              }
+              {...{ pageCount }}
+            />
+          </div>
+        </>
       )}
-
-      <div className={styles.pagination}>
-        <Pagination
-          activeClassName={styles["pagination-item-selected"]}
-          activeLinkClassName={styles["pagination-link-active"]}
-          containerClassName={styles["pagination-list"]}
-          disabledClassName={styles["pagination-arrow-disabled"]}
-          nextLabel={
-            <button className={styles["pagination-arrow"]} type="button">
-              {">"}
-            </button>
-          }
-          onPageChange={handlePageChange}
-          pageClassName={styles["pagination-item"]}
-          pageLinkClassName={styles["pagination-link"]}
-          previousLabel={
-            <button className={styles["pagination-arrow"]} type="button">
-              {"<"}
-            </button>
-          }
-          {...{ pageCount }}
-        />
-      </div>
 
       {isLoading && <Loader />}
     </>

@@ -5,6 +5,7 @@ import { Item } from "./Item";
 import { TWord } from "./Item/types";
 import { TPage } from "~/pages/api/words/types";
 import { TProps } from "./types";
+import styles from "./list.module.css";
 
 const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
   const [updatedItems, setUpdatedItems] = useState<TWord[]>([]);
@@ -19,7 +20,7 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
         .join("|");
 
       const response = await axios.post("/api/words", {
-        titles
+        titles,
       });
       const pages: TPage[] = await response["data"];
 
@@ -55,13 +56,21 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
   }, [items]);
 
   return (
-    <tbody>
-      {updatedItems.map(
-        ({ word, ...rest }: TWord): React.ReactElement => (
-          <Item key={word} {...{ word }} {...rest} />
-        )
-      )}
-    </tbody>
+    <>
+      <tbody>
+        {updatedItems.map(
+          ({ word, ...rest }: TWord): React.ReactElement => (
+            <Item key={word} {...{ word }} {...rest} />
+          )
+        )}
+      </tbody>
+
+      <tfoot className={styles.tfoot}>
+        <tr>
+          <td colSpan={3}>{items.length}</td>
+        </tr>
+      </tfoot>
+    </>
   );
 };
 
