@@ -478,6 +478,11 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+crunker@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/crunker/-/crunker-2.1.0.tgz#05b424b143c6294b9418c937f052c0834eab4398"
+  integrity sha512-yn2hd2Po8u7Bympg66ElL5MIQcQnSAaPh16h2i8rZwaArwlESZEf4m+9Z6Abu/HMr+YNvPrNgA7ioN0bKVQcAw==
+
 csstype@^3.0.2:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
