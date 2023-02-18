@@ -20,9 +20,8 @@ const Item: React.FC<TProps> = ({
         "commons/transcoded"
       )}/En-us-${word}.ogg.mp3`;
 
-      audioElement.current!.play();
       togglePlaying(true);
-      audioElement.current!.src = mp3;
+      audioElement.current.src = mp3;
       audioElement.current.play();
       audioElement.current.onended = () => {
         togglePlaying(false);
