@@ -21,6 +21,7 @@
 }
 
 .audio-button {
+  appearance: none;
   display: inline-block;
   height: 30px;
   vertical-align: middle;
