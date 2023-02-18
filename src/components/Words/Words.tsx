@@ -49,6 +49,7 @@ const Words: React.FC = () => {
 
   const handleWordsLoaded = (): void => {
     toggleLoading(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect((): void => {
@@ -62,6 +63,33 @@ const Words: React.FC = () => {
     <>
       {currentItems && !!currentItems.length && (
         <>
+          <div
+            className={styles.pagination}
+            style={{ opacity: isLoading ? 0 : 1 }}
+          >
+            <Pagination
+              activeClassName={styles["pagination-item-selected"]}
+              activeLinkClassName={styles["pagination-link-active"]}
+              containerClassName={styles["pagination-list"]}
+              disabledClassName={styles["pagination-arrow-disabled"]}
+              forcePage={currentPage}
+              nextLabel={
+                <button className={styles["pagination-arrow"]} type="button">
+                  {">"}
+                </button>
+              }
+              onPageChange={handlePageChange}
+              pageClassName={styles["pagination-item"]}
+              pageLinkClassName={styles["pagination-link"]}
+              previousLabel={
+                <button className={styles["pagination-arrow"]} type="button">
+                  {"<"}
+                </button>
+              }
+              {...{ pageCount }}
+            />
+          </div>
+
           <table className={styles.table} {...handlers}>
             <List items={currentItems} onDataLoaded={handleWordsLoaded} />
 

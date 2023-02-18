@@ -14,16 +14,23 @@ const Item: React.FC<TProps> = ({
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
   const handleAudioPlay = (): void => {
+    togglePlaying(true);
+
     if (audioElement) {
-      const mp3 = `${audioLink.replace(
+      const mp3: string = `${audioLink.replace(
         "commons",
         "commons/transcoded"
       )}/En-us-${word}.ogg.mp3`;
 
-      togglePlaying(true);
       audioElement.current.src = mp3;
-      audioElement.current.play();
-      audioElement.current.onended = () => {
+      audioElement.current.onloadeddata = (): void => {
+        audioElement.current.play();
+      };
+      audioElement.current.onerror = (): void => {
+        audioElement.current.src = audioLink;
+        audioElement.current.play();
+      };
+      audioElement.current.onended = (): void => {
         togglePlaying(false);
       };
     }
