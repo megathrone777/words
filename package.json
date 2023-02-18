@@ -26,6 +26,7 @@
     "@types/audiobuffer-to-wav": "^1.0.2",
     "@types/react-paginate": "^7.1.1",
     "audiobuffer-to-wav": "^1.0.0",
-    "react-paginate": "^8.1.4"
+    "react-paginate": "^8.1.4",
+    "web-audio-touch-unlock": "^1.0.1"
   }
 }
