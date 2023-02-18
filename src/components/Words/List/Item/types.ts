@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    webkitAudioContext: typeof AudioContext;
+  }
+}
+
 export interface TWord {
   audioLink: string;
   word: string;
