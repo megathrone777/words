@@ -58,14 +58,15 @@ const Item: React.FC<TProps> = ({
           const blob: Blob = new window.Blob([new DataView(wav)], {
             type: "audio/wav",
           });
-
           const url = window.URL.createObjectURL(blob);
+
+          alert(url);
 
           anchor.href = url;
           anchor.download = "audio.wav";
           anchor.click();
           window.URL.revokeObjectURL(url);
-          reader.readAsDataURL(blob);
+          // reader.readAsDataURL(blob);
         }
       );
     }
