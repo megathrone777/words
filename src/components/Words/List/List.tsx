@@ -14,7 +14,7 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
       const titles: string = items
         .map(
           ({ word }: Omit<TWord, "audioLink">): string =>
-            `File:En-us-${word}.ogg.mp3`
+            `File:En-us-${word}.ogg`
         )
         .join("|");
 

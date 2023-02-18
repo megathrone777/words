@@ -4,31 +4,6 @@ import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
 import styles from "./item.module.css";
 
-function webAudioTouchUnlock(context: AudioContext) {
-  return new Promise(function (resolve, reject) {
-    if (context.state === "suspended" && "ontouchstart" in window) {
-      var unlock = function () {
-        context.resume().then(
-          function () {
-            document.body.removeEventListener("touchstart", unlock);
-            document.body.removeEventListener("touchend", unlock);
-
-            resolve(true);
-          },
-          function (reason) {
-            reject(reason);
-          }
-        );
-      };
-
-      document.body.addEventListener("touchstart", unlock, false);
-      document.body.addEventListener("touchend", unlock, false);
-    } else {
-      resolve(false);
-    }
-  });
-}
-
 const Item: React.FC<TProps> = ({
   audioLink,
   translation,
@@ -40,9 +15,14 @@ const Item: React.FC<TProps> = ({
 
   const handleAudioPlay = (): void => {
     if (audioElement) {
+      const mp3 = `${audioLink.replace(
+        "commons",
+        "commons/transcoded"
+      )}/En-us-${word}.ogg.mp3`;
+
       audioElement.current!.play();
       togglePlaying(true);
-      audioElement.current!.src = audioLink;
+      audioElement.current!.src = mp3;
       audioElement.current.play();
       audioElement.current.onended = () => {
         togglePlaying(false);
