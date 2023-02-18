@@ -22,14 +22,6 @@ const Item: React.FC<TProps> = ({
       const response = await axios.get(audioLink, {
         responseType: "arraybuffer",
       });
-      const iOSbuffer = audioContext.createBuffer(1, 1, 22050);
-      const source = audioContext.createBufferSource();
-
-      source.buffer = iOSbuffer;
-      source.connect(audioContext.destination);
-      // @ts-ignore
-      source.start ? source.start(0) : source.noteOn(0);
-      alert(iOSbuffer);
 
       reader.onloadend = async (): Promise<void> => {
         if (reader["result"]) {
@@ -53,6 +45,15 @@ const Item: React.FC<TProps> = ({
               };
             }
           );
+
+          const iOSbuffer = audioContext.createBuffer(1, 1, 22050);
+          const source = audioContext.createBufferSource();
+    
+          source.buffer = iOSbuffer;
+          source.connect(audioContext.destination);
+          // @ts-ignore
+          source.start ? source.start(0) : source.noteOn(0);
+          alert(iOSbuffer);
         }
       };
 
