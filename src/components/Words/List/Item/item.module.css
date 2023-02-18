@@ -22,6 +22,7 @@
 
 .audio-button {
   appearance: none;
+  background-color: tomato;
   display: inline-block;
   height: 30px;
   vertical-align: middle;

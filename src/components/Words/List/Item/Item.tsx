@@ -13,6 +13,7 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
+  const [audio] = useState(new Audio());
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
   const handleAudioPlay = async (): Promise<void> => {
@@ -50,6 +51,7 @@ const Item: React.FC<TProps> = ({
     if (response && response["data"]) {
       const anchor = document.createElement("a");
 
+      alert(response["data"]);
       document.body.appendChild(anchor);
       audioContext.decodeAudioData(
         response["data"],
