@@ -1,27 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import webAudioTouchUnlock from "web-audio-touch-unlock";
+// import webAudioTouchUnlock from "web-audio-touch-unlock";
 import bufferToWav from "audiobuffer-to-wav";
 
 import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
 import styles from "./item.module.css";
-
-// function unlockAudioContext(audioCtx: AudioContext) {
-//   if (audioCtx.state === "suspended") {
-//     var events = ["touchstart", "touchend", "mousedown", "keydown"];
-//     var unlock = function unlock() {
-//       events.forEach(function (event) {
-//         document.body.removeEventListener(event, unlock);
-//       });
-//       audioCtx.resume();
-//     };
-
-//     events.forEach(function (event) {
-//       document.body.addEventListener(event, unlock, false);
-//     });
-//   }
-// }
 
 const Item: React.FC<TProps> = ({
   audioLink,
@@ -38,55 +22,53 @@ const Item: React.FC<TProps> = ({
       responseType: "arraybuffer",
     });
 
-    webAudioTouchUnlock(audioContext).then(
-      (isUnlocked: boolean) => {
-        reader.onloadend = async (): Promise<void> => {
-          if (reader["result"]) {
-            const soundUrl = reader["result"] as string;
-            const gainNode = audioContext.createGain();
-            const response = await axios.get(soundUrl, {
-              responseType: "arraybuffer",
-            });
+    reader.onloadend = async (): Promise<void> => {
+      if (reader["result"]) {
+        const soundUrl = reader["result"] as string;
+        const gainNode = audioContext.createGain();
+        const response = await axios.get(soundUrl, {
+          responseType: "arraybuffer",
+        });
 
-            gainNode.gain.value = 1;
-            audioContext.decodeAudioData(
-              response["data"],
-              (buffer: AudioBuffer): void => {
-                const source = audioContext.createBufferSource();
+        gainNode.gain.value = 1;
+        audioContext.decodeAudioData(
+          response["data"],
+          (buffer: AudioBuffer): void => {
+            const source = audioContext.createBufferSource();
 
-                source.buffer = buffer;
-                source.connect(audioContext.destination);
-                source.start();
-                source.onended = () => {
-                  togglePlaying(false);
-                };
-              }
-            );
+            source.buffer = buffer;
+            source.connect(audioContext.destination);
+            source.start();
+            source.onended = () => {
+              togglePlaying(false);
+            };
           }
-        };
-
-        if (response && response["data"]) {
-          audioContext.decodeAudioData(
-            response["data"],
-            (buffer: AudioBuffer): void => {
-              const wav = bufferToWav(buffer);
-              const blob: Blob = new window.Blob([new DataView(wav)], {
-                type: "audio/wav",
-              });
-
-              const url = window.URL.createObjectURL(blob);
-
-              console.log(url);
-
-              reader.readAsDataURL(blob);
-            }
-          );
-        }
-      },
-      (reason) => {
-        alert(reason);
+        );
       }
-    );
+    };
+
+    if (response && response["data"]) {
+      const anchor = document.createElement("a");
+
+      document.body.appendChild(anchor);
+      audioContext.decodeAudioData(
+        response["data"],
+        (buffer: AudioBuffer): void => {
+          const wav = bufferToWav(buffer);
+          const blob: Blob = new window.Blob([new DataView(wav)], {
+            type: "audio/wav",
+          });
+
+          const url = window.URL.createObjectURL(blob);
+
+          anchor.href = url;
+          anchor.download = "audio.wav";
+          anchor.click();
+          window.URL.revokeObjectURL(url);
+          reader.readAsDataURL(blob);
+        }
+      );
+    }
 
     togglePlaying(true);
   };
