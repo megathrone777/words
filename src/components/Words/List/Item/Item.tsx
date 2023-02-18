@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 // import webAudioTouchUnlock from "web-audio-touch-unlock";
 import bufferToWav from "audiobuffer-to-wav";
@@ -13,7 +13,6 @@ const Item: React.FC<TProps> = ({
   transcription,
   word,
 }) => {
-  const [audio] = useState(new Audio());
   const [isPlaying, togglePlaying] = useState<boolean>(false);
 
   const handleAudioPlay = async (): Promise<void> => {
@@ -22,6 +21,13 @@ const Item: React.FC<TProps> = ({
     const response = await axios.get(audioLink, {
       responseType: "arraybuffer",
     });
+    const iOSbuffer = audioContext.createBuffer(1, 1, 22050);
+    const source = audioContext.createBufferSource();
+
+    source.buffer = iOSbuffer;
+    source.connect(audioContext.destination);
+    // @ts-ignore
+    source.start ? source.start(0) : source.noteOn(0);
 
     reader.onloadend = async (): Promise<void> => {
       if (reader["result"]) {
@@ -49,10 +55,6 @@ const Item: React.FC<TProps> = ({
     };
 
     if (response && response["data"]) {
-      const anchor = document.createElement("a");
-
-      alert(response["data"]);
-      document.body.appendChild(anchor);
       audioContext.decodeAudioData(
         response["data"],
         (buffer: AudioBuffer): void => {
@@ -62,13 +64,8 @@ const Item: React.FC<TProps> = ({
           });
           const url = window.URL.createObjectURL(blob);
 
-          alert(url);
-
-          anchor.href = url;
-          anchor.download = "audio.wav";
-          anchor.click();
           window.URL.revokeObjectURL(url);
-          // reader.readAsDataURL(blob);
+          reader.readAsDataURL(blob);
         }
       );
     }
