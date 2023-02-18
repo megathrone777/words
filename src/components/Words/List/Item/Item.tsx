@@ -7,6 +7,22 @@ import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
 import { TProps } from "./types";
 import styles from "./item.module.css";
 
+function unlockAudioContext(audioCtx: AudioContext) {
+  if (audioCtx.state === "suspended") {
+    var events = ["touchstart", "touchend", "mousedown", "keydown"];
+    var unlock = function unlock() {
+      events.forEach(function (event) {
+        document.body.removeEventListener(event, unlock);
+      });
+      audioCtx.resume();
+    };
+
+    events.forEach(function (event) {
+      document.body.addEventListener(event, unlock, false);
+    });
+  }
+}
+
 const Item: React.FC<TProps> = ({
   audioLink,
   translation,
@@ -17,19 +33,24 @@ const Item: React.FC<TProps> = ({
 
   const handleAudioPlay = async (): Promise<void> => {
     if ("AudioContext" in window || "webkitAudioContext" in window) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
+      unlockAudioContext(audioContext);
       const reader = new FileReader();
       const response = await axios.get(audioLink, {
         responseType: "arraybuffer",
       });
-      const audioContext = new AudioContext();
 
-      webAudioTouchUnlock(audioContext).then(
-        () => {},
-        (reason) => {
-          alert(reason);
-        }
-      );
+      // webAudioTouchUnlock(audioContext).then(
+      //   (isUnlocked: boolean) => {
+      //     if (isUnlocked) {
+      //       alert("Unlocked");
+      //     }
+      //   },
+      //   (reason) => {
+      //     alert(reason);
+      //   }
+      // );
 
       reader.onloadend = async (): Promise<void> => {
         if (reader["result"]) {
