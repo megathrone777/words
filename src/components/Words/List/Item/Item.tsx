@@ -42,8 +42,7 @@ const Item: React.FC<TProps> = ({
     if (audioElement) {
       audioElement.current!.play();
       togglePlaying(true);
-      audioElement.current!.src =
-        "https://upload.wikimedia.org/wikipedia/commons/c/c0/LL-Q1860_%28eng%29-Exilexi-forest.wav";
+      audioElement.current!.src = audioLink;
       audioElement.current.play();
       audioElement.current.onended = () => {
         togglePlaying(false);
