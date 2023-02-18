@@ -15,9 +15,9 @@
 }
 
 .transcription {
-  display: inline-block;
-  margin-right: 5px;
-  vertical-align: middle;
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .audio-button {

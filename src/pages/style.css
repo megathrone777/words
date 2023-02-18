@@ -3,12 +3,12 @@ html,
 body {
   height: 100%;
   margin: 0;
+  width: 100%;
 }
 
 body {
   font: bold 16px "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica",
     "Arial", sans-serif;
-  overflow-y: scroll;
 }
 
 svg {
