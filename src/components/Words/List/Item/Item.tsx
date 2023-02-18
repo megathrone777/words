@@ -24,59 +24,48 @@ const Item: React.FC<TProps> = ({
       });
       const audioContext = new AudioContext();
 
-      webAudioTouchUnlock(audioContext).then((unlocked: boolean) => {
-        if (unlocked) {
-          const buffer = audioContext.createBuffer(1, 1, 22050);
-          const source = audioContext.createBufferSource();
+      webAudioTouchUnlock(audioContext);
 
-          source.buffer = buffer;
-          source.connect(audioContext.destination);
+      reader.onloadend = async (): Promise<void> => {
+        if (reader["result"]) {
+          const soundUrl = reader["result"] as string;
+          const gainNode = audioContext.createGain();
+          const response = await axios.get(soundUrl, {
+            responseType: "arraybuffer",
+          });
 
-          // @ts-ignore
-          source.start ? source.start(0) : source.noteOn(0);
-        } else {
-          reader.onloadend = async (): Promise<void> => {
-            if (reader["result"]) {
-              const soundUrl = reader["result"] as string;
-              const gainNode = audioContext.createGain();
-              const response = await axios.get(soundUrl, {
-                responseType: "arraybuffer",
-              });
+          gainNode.gain.value = 1;
+          audioContext.decodeAudioData(
+            response["data"],
+            (buffer: AudioBuffer): void => {
+              const source = audioContext.createBufferSource();
 
-              gainNode.gain.value = 1;
-              audioContext.decodeAudioData(
-                response["data"],
-                (buffer: AudioBuffer): void => {
-                  const source = audioContext.createBufferSource();
-
-                  source.buffer = buffer;
-                  source.connect(audioContext.destination);
-                  source.start();
-                  source.onended = () => {
-                    togglePlaying(false);
-                  };
-                }
-              );
+              source.buffer = buffer;
+              source.connect(audioContext.destination);
+              source.start();
+              source.onended = () => {
+                togglePlaying(false);
+              };
             }
-          };
-
-          if (response && response["data"]) {
-            audioContext.decodeAudioData(
-              response["data"],
-              (buffer: AudioBuffer): void => {
-                const wav = bufferToWav(buffer);
-                const blob: Blob = new window.Blob([new DataView(wav)], {
-                  type: "audio/wav",
-                });
-
-                reader.readAsDataURL(blob);
-              }
-            );
-          }
-
-          togglePlaying(true);
+          );
         }
-      });
+      };
+
+      if (response && response["data"]) {
+        audioContext.decodeAudioData(
+          response["data"],
+          (buffer: AudioBuffer): void => {
+            const wav = bufferToWav(buffer);
+            const blob: Blob = new window.Blob([new DataView(wav)], {
+              type: "audio/wav",
+            });
+
+            reader.readAsDataURL(blob);
+          }
+        );
+      }
+
+      togglePlaying(true);
     }
   };
 
