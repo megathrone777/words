@@ -23,13 +23,13 @@ const Item: React.FC<TProps> = ({
       )}/En-us-${word}.ogg.mp3`;
 
       audioElement.current.src = mp3;
-      audioElement.current.onloadeddata = (): void => {
-        audioElement.current.play();
-      };
+      audioElement.current.play();
+
       audioElement.current.onerror = (): void => {
         audioElement.current.src = audioLink;
         audioElement.current.play();
       };
+
       audioElement.current.onended = (): void => {
         togglePlaying(false);
       };
