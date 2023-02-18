@@ -54,6 +54,7 @@ const Item: React.FC<TProps> = ({
 
       reader.onloadend = async (): Promise<void> => {
         if (reader["result"]) {
+          alert(reader["result"]);
           const soundUrl = reader["result"] as string;
           const gainNode = audioContext.createGain();
           const response = await axios.get(soundUrl, {
