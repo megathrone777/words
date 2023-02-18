@@ -24,7 +24,12 @@ const Item: React.FC<TProps> = ({
       });
       const audioContext = new AudioContext();
 
-      webAudioTouchUnlock(audioContext);
+      webAudioTouchUnlock(audioContext).then(
+        () => {},
+        (reason) => {
+          alert(reason);
+        }
+      );
 
       reader.onloadend = async (): Promise<void> => {
         if (reader["result"]) {
