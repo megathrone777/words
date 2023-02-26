@@ -17,7 +17,6 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
             `File:En-us-${word}.ogg`
         )
         .join("|");
-
       const response = await axios.post("/api/words", {
         titles,
       });
@@ -58,8 +57,8 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
     <>
       <tbody>
         {updatedItems.map(
-          ({ word, ...rest }: TWord): React.ReactElement => (
-            <Item key={word} {...{ word }} {...rest} />
+          ({ word, ...rest }: TWord, index: number): React.ReactElement => (
+            <Item key={word} {...{ index, word }} {...rest} />
           )
         )}
       </tbody>

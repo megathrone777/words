@@ -6,6 +6,7 @@ import styles from "./item.module.css";
 
 const Item: React.FC<TProps> = ({
   audioLink,
+  index,
   translation,
   transcription,
   word,
@@ -38,7 +39,11 @@ const Item: React.FC<TProps> = ({
 
   return (
     <tr className={styles.tr}>
-      <td className={styles.td}>{word}</td>
+      <td className={styles.td}>
+        <span className={styles.index}>{index + 1}</span>
+        {word}
+      </td>
+
       <td className={styles.td}>
         <span className={styles.transcription}>{transcription}</span>
 
@@ -58,3 +63,4 @@ const Item: React.FC<TProps> = ({
 };
 
 export { Item };
+

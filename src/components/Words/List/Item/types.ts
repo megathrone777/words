@@ -6,9 +6,11 @@ declare global {
 
 export interface TWord {
   audioLink: string;
-  word: string;
   transcription: string;
   translation: string;
+  word: string;
 }
 
-export type TProps = TWord;
+export interface TProps extends TWord {
+  index: number;
+}
