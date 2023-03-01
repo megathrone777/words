@@ -6,4 +6,5 @@ export type TUpdatedItem = Partial<WiktionaryDataResult> & TWord;
 
 export interface TProps {
   items: TWord[];
+  onDataLoaded: () => void;
 }

@@ -80,7 +80,7 @@ const Words: React.FC = () => {
           </div>
 
           <table className={styles.table} {...handlers}>
-            <List items={currentItems} />
+            <List items={currentItems} onDataLoaded={handleWordsLoaded} />
 
             <tfoot className={styles.tfoot}>
               <tr>

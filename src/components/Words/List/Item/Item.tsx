@@ -54,6 +54,9 @@ const Item: React.FC<TProps> = ({
     if (audioFile) {
       getAudio();
     }
+    
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pronunciation]);
 
   return (
