@@ -3,9 +3,9 @@ import React from "react";
 import styles from "./loader.module.css";
 
 const Loader: React.FC = () => (
-  <div className={styles.wrapper}>
-    <div className={styles.spinner} />
-  </div>
+  <span className={styles.wrapper}>
+    <span className={styles.spinner} />
+  </span>
 );
 
 export { Loader };

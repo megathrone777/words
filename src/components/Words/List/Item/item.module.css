@@ -5,36 +5,73 @@
 .td {
   border-right: 3px solid black;
   font-size: 16px;
-  height: 33px;
-  padding: 3px;
+  height: 40px;
+  min-height: 40px;
+  padding: 2px;
   position: relative;
   width: 33.3333%;
 }
 
-.td:last-of-type {
-  border-right: none;
-}
-
 .index {
   color: firebrick;
-  font-size: 13px;
-  left: 5px;
-  top: 5px;
+  font-size: 11px;
+  left: 3px;
   position: absolute;
-}
-
-.transcription {
-  display: block;
-  font-size: 14px;
-  margin-bottom: 5px;
+  top: 2px;
 }
 
 .audio-button {
+  align-items: center;
   appearance: none;
+  background-color: lightsalmon;
   border: none;
-  background-color: tomato;
-  display: inline-block;
-  height: 30px;
-  vertical-align: middle;
-  width: 30px;
+  display: flex;
+  font-size: inherit;
+  font-weight: inherit;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.icon {
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  left: 3px;
+  position: absolute;
+  top: 2px;
+  width: 8px;
+}
+
+.link {
+  align-items: center;
+  background-color: turquoise;
+  color: black;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  padding-inline: 2px;
+  position: relative;
+  text-decoration: none;
+}
+
+.audio-button:hover,
+.link:hover {
+  opacity: 0.8;
+}
+
+.loader-wrapper {
+  bottom: 0;
+  display: block;
+  height: 20px;
+  left: 0;
+  margin-inline: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
 }

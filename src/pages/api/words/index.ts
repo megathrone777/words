@@ -1,24 +1,23 @@
-import axios from "axios";
+import WiktionaryScraper from "js-wiktionary-scraper";
 
-import { THandler, TPage } from "./types";
+import { THandler } from "./types";
 
 const handler: THandler = async (request, response) => {
-  const titles = request.body["titles"];
+  const titles: string[] = request.body["titles"];
+  const api = new WiktionaryScraper("en");
 
-  const wordsResponse = await axios.get("api.php", {
-    baseURL: "https://en.wiktionary.org/w/",
-    params: {
-      action: "query",
-      format: "json",
-      iiprop: "timestamp|url",
-      prop: "imageinfo",
-      titles,
-    },
+  const results = await Promise.allSettled(
+    titles.map((title) => api.fetchData(title))
+  );
+
+  const pages = results.map((result) => {
+    const { status } = result;
+
+    if (status === "fulfilled") return result.value;
+    return result.reason;
   });
 
-  const pages: TPage[] = Object.values(wordsResponse["data"]["query"]["pages"]);
-
-  response.status(200).send(pages);
+  response.status(200).json(pages);
 };
 
 export default handler;

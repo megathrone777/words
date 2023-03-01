@@ -1,51 +1,36 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { WiktionaryDataResult } from "js-wiktionary-scraper";
 
 import { Item } from "./Item";
 import { TWord } from "./Item/types";
-import { TPage } from "~/pages/api/words/types";
-import { TProps } from "./types";
+import { TProps, TUpdatedItem } from "./types";
 
-const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
-  const [updatedItems, setUpdatedItems] = useState<TWord[]>([]);
+const List: React.FC<TProps> = ({ items }) => {
+  const [updatedItems, setUpdatedItems] = useState<TUpdatedItem[]>(items);
+
+  useEffect((): void => {
+    setUpdatedItems(items);
+  }, [items]);
 
   useEffect((): void => {
     const getWordsData = async (): Promise<void> => {
-      const titles: string = items
-        .map(
-          ({ word }: Omit<TWord, "audioLink">): string =>
-            `File:En-us-${word}.ogg`
-        )
-        .join("|");
+      const titles: string[] = items.map(({ word }: TWord): string => word);
       const response = await axios.post("/api/words", {
         titles,
       });
-      const pages: TPage[] = await response["data"];
+      const pages: WiktionaryDataResult[] = await response["data"];
 
       if (pages) {
-        const words: TWord[] = items.map(
-          ({
-            transcription,
-            translation,
+        const updatedItems: TUpdatedItem[] = items.map(
+          ({ translation, word }, index: number) => ({
+            ...pages[index],
             word,
-          }: Omit<TWord, "audioLink">): TWord => {
-            const page: TPage | undefined = pages.find(
-              ({ title }: TPage): boolean => title === `File:En-us-${word}.ogg`
-            );
-
-            return {
-              audioLink:
-                page && page["imageinfo"] ? page["imageinfo"][0]["url"] : "",
-              transcription,
-              translation,
-              word,
-            };
-          }
+            translation,
+          })
         );
 
-        setUpdatedItems(words);
-        onDataLoaded();
-
+        setUpdatedItems(updatedItems);
         return;
       }
     };
@@ -57,7 +42,10 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
     <>
       <tbody>
         {updatedItems.map(
-          ({ word, ...rest }: TWord, index: number): React.ReactElement => (
+          (
+            { word, ...rest }: TUpdatedItem,
+            index: number
+          ): React.ReactElement => (
             <Item key={word} {...{ index, word }} {...rest} />
           )
         )}
