@@ -1,10 +1,6 @@
-import { WiktionaryDataResult } from "js-wiktionary-scraper";
-
-import { TWord } from "./Item/types";
-
-export type TUpdatedItem = Partial<WiktionaryDataResult> & TWord;
+import { TItem } from "~/components/Words/data/types";
 
 export interface TProps {
-  items: TWord[];
+  items: TItem[];
   onDataLoaded: () => void;
 }

@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import Pagination from "react-paginate";
 import { useSwipeable } from "react-swipeable";
 
+import { Loader } from "~/components";
 import { List } from "./List";
-import { TWord } from "./List/Item/types";
 import { list } from "./data";
+import { TItem } from "./data/types";
 import styles from "./words.module.css";
 
 const itemsPerPage: number = 50;
 
 const Words: React.FC = () => {
+  const [isLoading, toggleLoading] = useState<boolean>(true);
   const [itemOffset, setItemOffset] = useState<number>(0);
-  const [currentItems, setCurrentItems] = useState<TWord[]>([]);
+  const [currentItems, setCurrentItems] = useState<TItem[]>([]);
   const [pageCount, setPageCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
@@ -20,6 +22,7 @@ const Words: React.FC = () => {
       if (currentPage + 1 === pageCount) return;
       const newOffset = ((currentPage + 1) * itemsPerPage) % list.length;
 
+      toggleLoading(true);
       setCurrentPage((currentPage: number): number => currentPage + 1);
       setItemOffset(newOffset);
     },
@@ -28,6 +31,7 @@ const Words: React.FC = () => {
       if (currentPage === 0) return;
       const newOffset = ((currentPage - 1) * itemsPerPage) % list.length;
 
+      toggleLoading(true);
       setCurrentPage((currentPage) => currentPage - 1);
       setItemOffset(newOffset);
     },
@@ -36,11 +40,13 @@ const Words: React.FC = () => {
   const handlePageChange = ({ selected }: { selected: number }): void => {
     const newOffset = (selected * itemsPerPage) % list.length;
 
+    toggleLoading(true);
     setCurrentPage(selected);
     setItemOffset(newOffset);
   };
 
   const handleWordsLoaded = (): void => {
+    toggleLoading(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -55,7 +61,7 @@ const Words: React.FC = () => {
     <>
       {currentItems && !!currentItems.length && (
         <>
-          <div className={styles.pagination}>
+          <div className={styles.pagination} style={{ opacity: isLoading ? 0 : 1 }}>
             <Pagination
               activeClassName={styles["pagination-item-selected"]}
               activeLinkClassName={styles["pagination-link-active"]}
@@ -95,7 +101,7 @@ const Words: React.FC = () => {
             </tfoot>
           </table>
 
-          <div className={styles.pagination}>
+          <div className={styles.pagination} style={{ opacity: isLoading ? 0 : 1 }}>
             <Pagination
               activeClassName={styles["pagination-item-selected"]}
               activeLinkClassName={styles["pagination-link-active"]}
@@ -120,6 +126,8 @@ const Words: React.FC = () => {
           </div>
         </>
       )}
+
+      {isLoading && <Loader />}
     </>
   );
 };

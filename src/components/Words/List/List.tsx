@@ -1,36 +1,34 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { WiktionaryDataResult } from "js-wiktionary-scraper";
+import axios, { AxiosResponse } from "axios";
 
+import { TItem } from "~/components/Words/data/types";
 import { Item } from "./Item";
 import { TWord } from "./Item/types";
-import { TProps, TUpdatedItem } from "./types";
+import { TProps } from "./types";
 
-const List: React.FC<TProps> = ({ items }) => {
-  const [updatedItems, setUpdatedItems] = useState<TUpdatedItem[]>(items);
-
-  useEffect((): void => {
-    setUpdatedItems(items);
-  }, [items]);
+const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
+  const [updatedItems, setUpdatedItems] = useState<TWord[]>([]);
 
   useEffect((): void => {
     const getWordsData = async (): Promise<void> => {
-      const titles: string[] = items.map(({ word }: TWord): string => word);
-      const response = await axios.post("/api/words", {
-        titles,
-      });
-      const pages: WiktionaryDataResult[] = await response["data"];
+      const titles: string[] = items.map(({ word }: TItem): string => word);
+      const response: AxiosResponse<{ [key: TWord["word"]]: TWord }> =
+        await axios.post("/api/words", {
+          titles,
+        });
+      const pages = response["data"];
+
+      console.log(pages);
 
       if (pages) {
-        const updatedItems: TUpdatedItem[] = items.map(
-          ({ translation, word }, index: number) => ({
-            ...pages[index],
-            word,
-            translation,
-          })
-        );
+        const updatedItems: TWord[] = items.map(({ translation, word }) => ({
+          ...pages[word],
+          word,
+          translation,
+        }));
 
         setUpdatedItems(updatedItems);
+        onDataLoaded();
         return;
       }
     };
@@ -42,10 +40,7 @@ const List: React.FC<TProps> = ({ items }) => {
     <>
       <tbody>
         {updatedItems.map(
-          (
-            { word, ...rest }: TUpdatedItem,
-            index: number
-          ): React.ReactElement => (
+          ({ word, ...rest }: TWord, index: number): React.ReactElement => (
             <Item key={word} {...{ index, word }} {...rest} />
           )
         )}

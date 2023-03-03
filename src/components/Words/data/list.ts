@@ -434,7 +434,7 @@ const items: TItem[] = [
     translation: "стул",
   },
   {
-    word: "over",
+    word: "oven",
     translation: "печь",
   },
   {
@@ -473,7 +473,17 @@ const items: TItem[] = [
     word: "approach",
     translation: "подход",
   },
+  {
+    word: "landscape",
+    translation: "ландшафт",
+  },
+  {
+    word: "portrait",
+    translation: "портретная ориентация",
+  },
 ];
+
+// announcement adjective conclusion article inheritance competition armchair  carpet
 
 const list: TItem[] = [
   ...new Map(
