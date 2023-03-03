@@ -374,7 +374,7 @@ const items: TItem[] = [
     translation: "удар (ударить кого-то - punch someone)",
   },
   {
-    word: "strenght",
+    word: "strength",
     translation: "сила",
   },
   {

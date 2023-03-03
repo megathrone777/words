@@ -18,8 +18,6 @@ const List: React.FC<TProps> = ({ items, onDataLoaded }) => {
         });
       const pages = response["data"];
 
-      console.log(pages);
-
       if (pages) {
         const updatedItems: TWord[] = items.map(({ translation, word }) => ({
           ...pages[word],

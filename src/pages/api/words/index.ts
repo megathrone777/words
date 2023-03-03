@@ -25,21 +25,24 @@ const handler: THandler = async (request, response) => {
     const pronunciation = page["revisions"][0]["slots"]["main"]["content"];
     const lines = parser.pageToSectionObject(pronunciation);
 
-    if (page["title"] === "fury") {
-      console.log(lines["English"]);
-    }
-
     if (
-      lines["English"] &&
-      lines["English"]["Pronunciation"] &&
-      lines["English"]["Pronunciation"]["content"]
+      (lines["English"] &&
+        lines["English"]["Pronunciation"] &&
+        lines["English"]["Pronunciation"]["content"]) ||
+      (lines["English"] &&
+        lines["English"]["Etymology 1"] &&
+        lines["English"]["Etymology 1"]["Pronunciation"] &&
+        lines["English"]["Etymology 1"]["Pronunciation"]["content"])
     ) {
-      const content = lines["English"]["Pronunciation"]["content"];
-      const audioLine = content.find((line: string): boolean =>
+      const content =
+        lines["English"]["Pronunciation"] ||
+        lines["English"]["Etymology 1"]["Pronunciation"];
+
+      const audioLine = content["content"].find((line: string): boolean =>
         line.includes("audio|en")
       );
-      const transcriptionLine: string = content.find((line: string): boolean =>
-        line.includes("IPA|en")
+      const transcriptionLine: string = content["content"].find(
+        (line: string): boolean => line.includes("IPA|en")
       );
 
       const audioFile = audioLine
@@ -62,7 +65,7 @@ const handler: THandler = async (request, response) => {
     return {
       audioFile: "",
       title: page["title"],
-      transcription: "",
+      transcription: "123",
     };
   });
 

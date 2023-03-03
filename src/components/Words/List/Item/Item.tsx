@@ -35,7 +35,12 @@ const Item: React.FC<TProps> = ({
     <tr className={styles.tr}>
       <td className={styles.td}>
         {word && (
-          <a className={styles.link} href="#" rel="noreferrer" target="_blank">
+          <a
+            className={styles.link}
+            href={`https://en.wiktionary.org/wiki/${word}`}
+            rel="noreferrer"
+            target="_blank"
+          >
             <span className={styles.index}>{index + 1}</span>
             {word}
           </a>
