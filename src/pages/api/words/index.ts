@@ -65,7 +65,7 @@ const handler: THandler = async (request, response) => {
     return {
       audioFile: "",
       title: page["title"],
-      transcription: "123",
+      transcription: "",
     };
   });
 
