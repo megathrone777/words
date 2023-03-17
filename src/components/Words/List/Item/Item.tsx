@@ -42,75 +42,7 @@ const Item: React.FC<TProps> = ({
           playSound(buffer);
         });
       });
-
-    // if (audioContext.current && audioBuffer) {
-    //   const source: AudioBufferSourceNode =
-    //     audioContext.current.createBufferSource();
-
-    //   source.buffer = audioBuffer;
-    //   source.connect(audioContext.current.destination);
-    //   // @ts-ignore
-    //   source.noteOn(0);
-    //   source.onended = (): void => {
-    //     audioContext.current?.close();
-    //     togglePlaying(false);
-    //   };
-    //   togglePlaying(true);
-    // }
   };
-
-  // useEffect((): void => {
-  //   if (audioContext.current && !isPlaying) {
-  //     audioContext.current.resume();
-  //     togglePlaying(true);
-  //   } else if (
-  //     audioContext.current &&
-  //     audioContext.current.state === "running"
-  //   ) {
-  //     // setPlayDuration(audioCtxContainer.current.currentTime);
-  //     audioContext.current.suspend();
-  //     togglePlaying(false);
-  //   } else if (
-  //     audioContext.current &&
-  //     audioContext.current.state === "suspended"
-  //   ) {
-  //     audioContext.current.resume();
-  //   }
-  // }, [isPlaying]);
-
-  // useEffect((): void => {
-  //   if (audioContext.current) {
-  //     const buffer = audioContext.current.createBuffer(1, 1, 22050);
-  //     const source = audioContext.current.createBufferSource();
-
-  //     source.buffer = buffer;
-  //     source.connect(audioContext.current.destination);
-
-  //     //@ts-ignore
-  //     source.start ? source.start(0) : source.noteOn(0);
-  //   }
-  // }, [audioContext]);
-
-  // useEffect((): void => {
-  //   if ("AudioContext" in window || "webkitAudioContext" in window) {
-  //     const context: AudioContext = new AudioContext();
-  //     const gainNode: GainNode = context.createGain();
-
-  //     if (audioLink) {
-  //       gainNode.gain.value = 1;
-  //       axios
-  //         .get(audioLink, {
-  //           responseType: "arraybuffer",
-  //         })
-  //         .then((response): void => {
-  //           audioContext.current = context;
-  //           context.decodeAudioData(response["data"], (buffer) => {
-  //             setAudioBuffer(buffer);
-  //           });
-  //         });
-  //     }
-  //   }
-  // }, [audioLink]);
 
   return (
     <tr className={styles.tr}>
