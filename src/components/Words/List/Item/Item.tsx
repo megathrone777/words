@@ -31,46 +31,13 @@ const Item: React.FC<TProps> = ({
     }
   };
 
-  // const handleAudioPlay = async (): Promise<void> => {
-  //   if (audioBuffer) {
-  //     const source = audioContext.createBufferSource();
-
-  //     source.buffer = audioBuffer;
-  //     source.connect(audioContext.destination);
-  //     source.start();
-  //   }
-
-  //   if ("AudioContext" in window || "webkitAudioContext" in window) {
-  //     const audioContext = new AudioContext();
-  //     const gainNode = audioContext.createGain();
-
-  //     gainNode.gain.value = 1;
-
-  //     if (buffer) {
-  //       const audioBuffer = await audioContext.decodeAudioData(buffer);
-  //     }
-
-  //     const unlock = () => {
-  //       console.log("unlocking");
-  //       var buffer = audioContext.createBuffer(1, 1, 22050);
-  //       var source = audioContext.createBufferSource();
-  //       source.buffer = buffer;
-  //       source.connect(audioContext.destination);
-
-  //       //@ts-ignore
-  //       source.start ? source.start(0) : source.noteOn(0);
-  //     };
-
-  //     unlock();
-  //   }
-  // };
-
   useEffect((): void => {
     if ("AudioContext" in window || "webkitAudioContext" in window) {
       const context = new AudioContext();
       const gainNode = context.createGain();
 
       if (audioLink) {
+        gainNode.gain.value = 1;
         axios
           .get(audioLink, {
             responseType: "arraybuffer",
@@ -82,6 +49,20 @@ const Item: React.FC<TProps> = ({
             });
           });
       }
+
+      const unlock = () => {
+        console.log("unlocking");
+        const buffer = context.createBuffer(1, 1, 22050);
+        const source = context.createBufferSource();
+
+        source.buffer = buffer;
+        source.connect(context.destination);
+
+        //@ts-ignore
+        source.start ? source.start(0) : source.noteOn(0);
+      };
+
+      unlock();
     }
   }, [audioLink]);
 
