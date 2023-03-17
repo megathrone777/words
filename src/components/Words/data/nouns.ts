@@ -481,14 +481,144 @@ const items: TItem[] = [
     word: "portrait",
     translation: "портретная ориентация",
   },
+  {
+    word: "patience",
+    translation: "терпение",
+  },
+  {
+    word: "air",
+    translation: "воздух",
+  },
+  {
+    word: "connection",
+    translation: "связь",
+  },
+  {
+    word: "condition",
+    translation: "условие",
+  },
+  {
+    word: "wallet",
+    translation: "кошелёк",
+  },
+  {
+    word: "pocket",
+    translation: "карман",
+  },
+  {
+    word: "sword",
+    translation: "меч",
+  },
+  {
+    word: "dagger",
+    translation: "кинжал",
+  },
+  {
+    word: "district",
+    translation: "район",
+  },
+  {
+    word: "ashtray",
+    translation: "пепельница",
+  },
+  {
+    word: "spear",
+    translation: "копьё",
+  },
+  {
+    word: "pear",
+    translation: "груша",
+  },
+  {
+    word: "basketball",
+    translation: "баскетбол",
+  },
+  {
+    word: "athletics",
+    translation: "атлетика",
+  },
+  {
+    word: "scissors",
+    translation: "ножницы",
+  },
+  {
+    word: "employer",
+    translation: "наёмный работник",
+  },
+  {
+    word: "trunk",
+    translation: "ствол",
+  },
+  {
+    word: "can",
+    translation: "банка",
+  },
+  {
+    word: "pepper",
+    translation: "перец",
+  },
+  {
+    word: "potato",
+    translation: "картошка",
+  },
+  {
+    word: "fries",
+    translation: "картошка фри",
+  },
+  {
+    word: "glass",
+    translation: "стакан, стекло",
+  },
+  {
+    word: "tube",
+    translation: "тюбик",
+  },
+  {
+    word: "toothpaste",
+    translation: "зубная паста",
+  },
+  {
+    word: "wheel",
+    translation: "колесо",
+  },
+  {
+    word: "hijacking",
+    translation: "угон машины",
+  },
+  {
+    word: "conclusion",
+    translation: "заключение",
+  },
+  {
+    word: "competition",
+    translation: "соревнование",
+  },
+  {
+    word: "chair",
+    translation: "стул",
+  },
+  {
+    word: "carpet",
+    translation: "ковёр",
+  },
+  {
+    word: "adjective",
+    translation: "прилагательное",
+  },
+  {
+    word: "announcement",
+    translation: "оповещение",
+  },
+  {
+    word: "inheritance",
+    translation: "наследование",
+  },
 ];
 
-// announcement adjective conclusion article inheritance competition armchair  carpet
-
-const list: TItem[] = [
+const nouns: TItem[] = [
   ...new Map(
     items.map((item: TItem): [string, TItem] => [item["word"], item])
   ).values(),
 ];
 
-export { list };
+export { nouns };

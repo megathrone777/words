@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Pagination from "react-paginate";
+
 import { useSwipeable } from "react-swipeable";
 
-import { Loader } from "~/components";
+import { Loader, Pagination } from "~/components";
 import { List } from "./List";
-import { list } from "./data";
+import { nouns } from "./data";
 import { TItem } from "./data/types";
 import styles from "./words.module.css";
 
@@ -20,7 +20,7 @@ const Words: React.FC = () => {
   const handlers = useSwipeable({
     onSwipedLeft: (): void => {
       if (currentPage + 1 === pageCount) return;
-      const newOffset = ((currentPage + 1) * itemsPerPage) % list.length;
+      const newOffset = ((currentPage + 1) * itemsPerPage) % nouns.length;
 
       toggleLoading(true);
       setCurrentPage((currentPage: number): number => currentPage + 1);
@@ -29,7 +29,7 @@ const Words: React.FC = () => {
 
     onSwipedRight: (): void => {
       if (currentPage === 0) return;
-      const newOffset = ((currentPage - 1) * itemsPerPage) % list.length;
+      const newOffset = ((currentPage - 1) * itemsPerPage) % nouns.length;
 
       toggleLoading(true);
       setCurrentPage((currentPage) => currentPage - 1);
@@ -38,7 +38,7 @@ const Words: React.FC = () => {
   });
 
   const handlePageChange = ({ selected }: { selected: number }): void => {
-    const newOffset = (selected * itemsPerPage) % list.length;
+    const newOffset = (selected * itemsPerPage) % nouns.length;
 
     toggleLoading(true);
     setCurrentPage(selected);
@@ -53,37 +53,18 @@ const Words: React.FC = () => {
   useEffect((): void => {
     const endOffset: number = itemOffset + itemsPerPage;
 
-    setCurrentItems(list.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(list.length / itemsPerPage));
+    setCurrentItems(nouns.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(nouns.length / itemsPerPage));
   }, [itemOffset]);
 
   return (
     <>
       {currentItems && !!currentItems.length && (
         <>
-          <div className={styles.pagination} style={{ opacity: isLoading ? 0 : 1 }}>
-            <Pagination
-              activeClassName={styles["pagination-item-selected"]}
-              activeLinkClassName={styles["pagination-link-active"]}
-              containerClassName={styles["pagination-list"]}
-              disabledClassName={styles["pagination-arrow-disabled"]}
-              forcePage={currentPage}
-              nextLabel={
-                <button className={styles["pagination-arrow"]} type="button">
-                  {">"}
-                </button>
-              }
-              onPageChange={handlePageChange}
-              pageClassName={styles["pagination-item"]}
-              pageLinkClassName={styles["pagination-link"]}
-              previousLabel={
-                <button className={styles["pagination-arrow"]} type="button">
-                  {"<"}
-                </button>
-              }
-              {...{ pageCount }}
-            />
-          </div>
+          <Pagination
+            {...{ currentPage, pageCount }}
+            onPageChange={handlePageChange}
+          />
 
           <table className={styles.table} {...handlers}>
             <List items={currentItems} onDataLoaded={handleWordsLoaded} />
@@ -92,38 +73,19 @@ const Words: React.FC = () => {
               <tr>
                 <td colSpan={3}>
                   {currentPage + 1 === pageCount
-                    ? `${list.length} из ${list.length}`
+                    ? `${nouns.length} из ${nouns.length}`
                     : `${(currentPage + 1) * currentItems.length} из ${
-                        list.length
+                        nouns.length
                       }`}
                 </td>
               </tr>
             </tfoot>
           </table>
 
-          <div className={styles.pagination} style={{ opacity: isLoading ? 0 : 1 }}>
-            <Pagination
-              activeClassName={styles["pagination-item-selected"]}
-              activeLinkClassName={styles["pagination-link-active"]}
-              containerClassName={styles["pagination-list"]}
-              disabledClassName={styles["pagination-arrow-disabled"]}
-              forcePage={currentPage}
-              nextLabel={
-                <button className={styles["pagination-arrow"]} type="button">
-                  {">"}
-                </button>
-              }
-              onPageChange={handlePageChange}
-              pageClassName={styles["pagination-item"]}
-              pageLinkClassName={styles["pagination-link"]}
-              previousLabel={
-                <button className={styles["pagination-arrow"]} type="button">
-                  {"<"}
-                </button>
-              }
-              {...{ pageCount }}
-            />
-          </div>
+          <Pagination
+            {...{ currentPage, pageCount }}
+            onPageChange={handlePageChange}
+          />
         </>
       )}
 

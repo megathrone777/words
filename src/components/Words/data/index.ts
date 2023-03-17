@@ -1,1 +1,2 @@
-export { list } from "./list";
+export { nouns } from "./nouns";
+export { verbs } from "./verbs";
