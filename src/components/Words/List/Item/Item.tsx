@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { AudioContext } from "standardized-audio-context";
 import axios from "axios";
 
 import { SvgPauseIcon, SvgPlayIcon } from "~/icons";
